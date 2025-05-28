@@ -1,169 +1,215 @@
-//Exercise 1
-// main.js
-console.log("Welcome to the Community Portal");
-window.onload = function () {
-  alert("Page is fully loaded!");
-};
-//Exercise 2
-const eventName = "Community Cleanup";
-const eventDate = "2025-06-15";
-let seatsAvailable = 50;
-console.log(`${eventName} is scheduled for ${eventDate}. Seats left: ${seatsAvailable}`);
-seatsAvailable--;
-//Exercise 3
-const events = [
-  { name: "Music Night", date: "2025-06-20", seats: 10 },
-  { name: "Past Event", date: "2024-06-01", seats: 0 }
+// 1. JS Basics & Setup
+console.log("Hello from the Community Hub!");
+window.addEventListener("load", () => alert("Page loaded successfully!"));
+
+// 2. Syntax, Data Types, and Operators
+const eventTitle = "Nature Walk";
+const eventDay = "2025-06-15";
+let seatsLeft = 30;
+let eventDetails = `${eventTitle} is on ${eventDay}. Available seats: ${seatsLeft}`;
+console.log(eventDetails);
+
+// Simulate a registration
+seatsLeft--;
+console.log(`Seats after one registration: ${seatsLeft}`);
+
+// 3. Conditionals, Loops, and Error Handling
+let allEvents = [
+  { name: "Art Show", date: "2025-06-10", seats: 20 },
+  { name: "Tech Talk", date: "2025-05-20", seats: 0 },
+  { name: "Food Fest", date: "2025-07-01", seats: 15 }
 ];
-events.forEach(event => {
-  const today = new Date();
-  const eventDate = new Date(event.date);
-  if (eventDate > today && event.seats > 0) {
-    console.log(`Upcoming Event: ${event.name}`);
-  } else {
-    console.log(`Skipping: ${event.name}`);
-  }
-});
+
+function displayUpcomingEvents(events) {
+  const today = new Date().toISOString().split("T")[0];
+  events.forEach(event => {
+    if (event.date > today && event.seats > 0) {
+      console.log(`📅 ${event.name} - ${event.date} - Seats: ${event.seats}`);
+    } else {
+      console.log(`⛔ Skipped event: ${event.name}`);
+    }
+  });
+}
+
 try {
-  // simulate registration
-  let selectedEvent = events[0];
-  if (selectedEvent.seats <= 0) throw "No seats available!";
-  selectedEvent.seats--;
-  console.log("Registered successfully.");
-} catch (err) {
-  console.error("Registration failed:", err);
+  displayUpcomingEvents(allEvents);
+} catch (e) {
+  console.error("Error loading events:", e.message);
 }
-//Exercise 4
-function addEvent(name, category) {
-  return { name, category };
+
+// 4. Functions, Closures, Callbacks
+function createEvent(name, date, seats, type) {
+  return { name, date, seats, type };
 }
-function registerUser(user, event) {
-  console.log(`${user} registered for ${event.name}`);
+
+function registerAttendee(event) {
+  if (event.seats > 0) {
+    event.seats--;
+    console.log(`✅ Registered to ${event.name}. Remaining: ${event.seats}`);
+  } else {
+    console.warn(`⚠️ No seats left for ${event.name}`);
+  }
 }
-function filterEventsByCategory(events, category) {
-  return events.filter(e => e.category === category);
-}
-// Closure
-function createCategoryTracker() {
+
+function categoryRegistrationTracker(category) {
   let count = 0;
   return function () {
     count++;
-    return count;
+    console.log(`Total registrations for ${category}: ${count}`);
   };
 }
-const trackMusic = createCategoryTracker();
-console.log(trackMusic()); // 1
-console.log(trackMusic()); // 2
-//exercise 5
-function Event(name, seats) {
+
+const musicCounter = categoryRegistrationTracker("Music");
+
+function filterBy(events, conditionFn) {
+  return events.filter(conditionFn);
+}
+
+// 5. Objects and Prototypes
+function Event(name, date, seats) {
   this.name = name;
+  this.date = date;
   this.seats = seats;
 }
+
 Event.prototype.checkAvailability = function () {
   return this.seats > 0;
 };
-const musicEvent = new Event("Jazz Night", 20);
-console.log(Object.entries(musicEvent)); // [['name', 'Jazz Night'], ['seats', 20]]
-console.log(musicEvent.checkAvailability());
-//Exercise 6
-let allEvents = [
-  { name: "Yoga", type: "health" },
-  { name: "Rock Concert", type: "music" }
-];
-allEvents.push({ name: "Jazz", type: "music" });
-let musicEvents = allEvents.filter(e => e.type === "music");
-let cards = allEvents.map(e => `Event: ${e.name.toUpperCase()}`);
-console.log(cards);
-//Exercise 7
-const eventList = document.querySelector("#eventList");
-function renderEvent(event) {
-  const div = document.createElement("div");
-  div.className = "eventCard";
-  div.textContent = `${event.name} - ${event.date}`;
-  eventList.appendChild(div);
+
+let paintingWorkshop = new Event("Painting Workshop", "2025-06-22", 12);
+console.log("Availability:", paintingWorkshop.checkAvailability());
+
+console.log(Object.entries(paintingWorkshop));
+
+// 6. Arrays and Methods
+let eventsArray = [];
+eventsArray.push(createEvent("Music Night", "2025-07-05", 25, "Music"));
+eventsArray.push(createEvent("Science Fair", "2025-06-30", 40, "Education"));
+
+let musicOnly = eventsArray.filter(evt => evt.type === "Music");
+let displayCards = eventsArray.map(evt => `🎫 ${evt.name} on ${evt.date}`);
+
+console.log("Music Events:", musicOnly);
+console.log("Event Cards:", displayCards);
+
+// 7. DOM Manipulation
+const eventContainer = document.querySelector("#eventContainer");
+
+function renderEvents(events) {
+  eventContainer.innerHTML = "";
+  events.forEach(evt => {
+    let card = document.createElement("div");
+    card.className = "event-card";
+    card.innerHTML = `<h3>${evt.name}</h3><p>${evt.date}</p><p>Seats: ${evt.seats}</p>`;
+    eventContainer.appendChild(card);
+  });
 }
-//Exercise 8
-document.getElementById("registerBtn").onclick = function () {
-  alert("You registered!");
+
+renderEvents(eventsArray);
+
+// 8. Event Handling
+document.querySelector("#filterCategory").onchange = function (e) {
+  const selected = e.target.value;
+  let filtered = eventsArray.filter(evt => evt.type === selected);
+  renderEvents(filtered);
 };
-document.getElementById("categoryFilter").onchange = function (e) {
-  filterEvents(e.target.value);
-};
-document.getElementById("searchInput").addEventListener("keydown", function (e) {
-  if (e.key === "Enter") {
-    console.log("Searching for:", e.target.value);
-  }
+
+document.querySelector("#searchBox").addEventListener("keydown", function (e) {
+  let term = e.target.value.toLowerCase();
+  let result = eventsArray.filter(evt => evt.name.toLowerCase().includes(term));
+  renderEvents(result);
 });
-//Exercise 9
-// Using Promises
-fetch("https://mockapi.io/events")
-  .then(res => res.json())
-  .then(data => console.log("Events:", data))
-  .catch(err => console.error(err));
-// Using async/await
-async function fetchEvents() {
-  document.getElementById("loading").style.display = "block";
+
+// 9. Async, Promises, Async/Await
+function fetchMockEvents() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { name: "Yoga Camp", date: "2025-07-20", seats: 50, type: "Health" }
+      ]);
+    }, 1000);
+  });
+}
+
+function loadEvents() {
+  document.querySelector("#loader").style.display = "block";
+  fetchMockEvents()
+    .then(data => {
+      eventsArray = [...eventsArray, ...data];
+      renderEvents(eventsArray);
+    })
+    .catch(err => console.error("Error loading:", err))
+    .finally(() => document.querySelector("#loader").style.display = "none");
+}
+
+// Alternative async/await version
+async function loadEventsAsync() {
+  document.querySelector("#loader").style.display = "block";
   try {
-    const res = await fetch("https://mockapi.io/events");
-    const data = await res.json();
-    console.log(data);
-  } catch (e) {
-    console.error("Failed to load events", e);
-  } finally {
-    document.getElementById("loading").style.display = "none";
+    let data = await fetchMockEvents();
+    eventsArray.push(...data);
+    renderEvents(eventsArray);
+  } catch (err) {
+    console.error(err);
   }
+  document.querySelector("#loader").style.display = "none";
 }
-//Exercise 10
-const events = [
-  { name: "Yoga", date: "2025-07-01", category: "health" }
-];
-function logEvent({ name, date }) {
-  console.log(`${name} on ${date}`);
+
+// 10. Modern JS
+function greetUser(name = "Guest") {
+  console.log(`Hello, ${name}!`);
 }
-const newList = [...events]; // Spread
-logEvent(events[0]);
-//Exercise 11
-document.getElementById("regForm").addEventListener("submit", function (e) {
+
+const [firstEvent] = eventsArray;
+const { name: eventName, date: eventDate } = firstEvent;
+
+let clonedEvents = [...eventsArray];
+
+// 11. Form Handling
+document.querySelector("#registerForm").addEventListener("submit", function (e) {
   e.preventDefault();
-  const name = this.elements["name"].value;
-  const email = this.elements["email"].value;
-  const event = this.elements["event"].value;
-  if (!name || !email) {
-    document.getElementById("errorMsg").textContent = "All fields are required.";
+  let { userName, userEmail, eventSelect } = e.target.elements;
+
+  if (!userName.value || !userEmail.value) {
+    alert("Please fill in all details.");
     return;
   }
-  console.log(`Registered ${name} for ${event}`);
+
+  console.log(`Name: ${userName.value}, Email: ${userEmail.value}, Event: ${eventSelect.value}`);
 });
-//Exercise 12
-function sendRegistration(data) {
-  document.getElementById("status").textContent = "Submitting...";
-  setTimeout(() => {
-    fetch("https://mockapi.io/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(res => {
-      document.getElementById("status").textContent = "Registered successfully!";
-    })
-    .catch(() => {
-      document.getElementById("status").textContent = "Failed to register.";
-    });
-  }, 2000);
+
+// 12. AJAX & Fetch Simulation
+function postRegistration(data) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve({ success: true }), 1500);
+  });
 }
-//Exercise 13
-console.log("Submitting form...");
-try {
-  const payload = { name: "John", email: "john@mail.com" };
-  console.log("Payload:", payload);
-  // simulate fetch
-} catch (err) {
-  console.error("Error:", err);
-}
-//Exercise 14
-// jQuery example
-$('#registerBtn').click(function () {
-  alert("You clicked register!");
-  $('.eventCard').fadeOut().fadeIn();
+
+document.querySelector("#registerForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  let formData = {
+    name: e.target.userName.value,
+    email: e.target.userEmail.value,
+    event: e.target.eventSelect.value
+  };
+
+  postRegistration(formData).then(response => {
+    if (response.success) {
+      alert("🎉 Registration successful!");
+    }
+  });
 });
+
+// 13. Debugging
+console.log("Form submitted...");
+debugger; // Use browser DevTools to inspect here
+// Check Network tab after fetch/post call
+
+// 14. jQuery and JS Frameworks
+// Assuming jQuery is loaded in HTML
+$(document).ready(function () {
+  $('#registerBtn').click(() => alert("Registering..."));
+  $('.event-card').fadeIn(600).delay(1000).fadeOut(600);
+});
+
+
