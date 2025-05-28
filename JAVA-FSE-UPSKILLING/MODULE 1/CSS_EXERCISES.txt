@@ -1,32 +1,8 @@
-< ------ Exercise 1 ----- >
-
-HTML (index.html):
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Community Event</title>
-  <!-- Embedded CSS -->
-  <style>
-    body {
-      background-color: #f0f0f0;
-    }
-  </style>
-  <!-- External CSS -->
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <h1 style="color: red;">Welcome to Our Local Events!</h1> <!-- Inline style -->
-  <h2 id="mainHeader">Upcoming Events</h2>
-  <div class="eventCard">...</div>
-</body>
-</html>
-External CSS (styles.css):
-/* Header styles */
+/* Task 1: External styling for header and event card */
 #mainHeader {
   font-size: 24px;
   color: navy;
 }
-/* Card styles */
 .eventCard {
   border: 1px solid #ccc;
   padding: 20px;
@@ -34,8 +10,7 @@ External CSS (styles.css):
   background-color: white;
 }
 
-< ----- Exercise 2 ----- >
-/* Style for main CTA button */
+/* Task 2: Call-to-action button styling */
 .cta-button {
   background-color: #007BFF;
   color: white;
@@ -45,58 +20,46 @@ External CSS (styles.css):
   font-size: 16px;
 }
 
-< ----- Exercise 3 ----- >
-/* Reset margin and padding */
+/* Task 3: Reset, element, class, ID, and group selectors */
 * {
   margin: 0;
   padding: 0;
 }
-/* Style all h2 elements */
 h2 {
   color: teal;
   margin-bottom: 10px;
 }
-/* ID selector */
 #mainHeader {
   font-size: 28px;
   font-weight: bold;
 }
-/* Class selector */
 .eventCard {
   background-color: #fff;
   border: 1px solid #ccc;
   margin: 10px;
   padding: 15px;
 }
-/* Grouping selector */
 h3, p {
   font-family: Arial, sans-serif;
   color: #333;
 }
 
-< ----- Exercise 4 ------ >
-/* Text color using HEX */
+/* Task 4: Color, background-color, image, gradient */
 h1 {
   color: #004488;
 }
-/* Background using RGBA */
 body {
   background-color: rgba(240, 240, 255, 0.9);
-}
-/* Background image with fallback */
-body {
-  background-color: #eee;
   background-image: url('background.jpg');
   background-size: cover;
 }
-/* Gradient on section headers */
 section h2 {
   background: linear-gradient(to right, #6a11cb, #2575fc);
   color: white;
   padding: 10px;
 }
 
-< ----- exercise 5 ----- >
+/* Task 5: Font styles and text formatting */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 body {
   font-family: 'Roboto', sans-serif;
@@ -109,7 +72,7 @@ p.description {
   text-transform: none;
 }
 
-< ----- Exercise 6 ----- >
+/* Task 6: Link states and nav list styling */
 nav a:link {
   color: #0077cc;
 }
@@ -130,7 +93,7 @@ nav li {
   margin: 5px 0;
 }
 
-< ----- Exercise 7 ----- >
+/* Task 7: Table styling */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -144,17 +107,10 @@ tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-< ----- Exercise 8 ----- >
-.eventCard {
-  border: 1px solid #ddd;
-  margin: 20px;
-  padding: 15px;
-}
-/* Outline example */
+/* Task 8: Box model and visibility */
 input:focus {
   outline: 2px solid #007BFF;
 }
-/* Visibility comparison */
 .hidden {
   visibility: hidden;
 }
@@ -162,20 +118,18 @@ input:focus {
   display: none;
 }
 
-< ----- Exercise 9 ----- >
+/* Task 9: Multi-column layout */
 .news-section {
   column-count: 2;
   column-gap: 30px;
   column-rule: 1px solid gray;
 }
 
-< ----- Exercise 10 ----- >
-/* Base styles */
+/* Task 10: Responsive design */
 nav ul {
   display: flex;
   justify-content: space-around;
 }
-/* Responsive styles */
 @media (max-width: 768px) {
   nav ul {
     flex-direction: column;
@@ -189,15 +143,10 @@ nav ul {
     font-size: 14px;
   }
 }
-/* Use flexible units */
 .container {
   width: 90%;
   max-width: 1200px;
   margin: auto;
 }
 
-< ----- Exercise 11 ----- >
-/* Nothing required in code; use DevTools to: */
-/* - Simulate screen sizes with device toolbar */
-/* - Inspect and live-edit styles */
-/* - Check Network tab for CSS file loading */
+/* Task 11: Use Chrome DevTools to debug, simulate, and inspect styles */
